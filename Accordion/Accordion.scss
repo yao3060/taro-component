@@ -1,0 +1,23 @@
+.accordion-wrapper
+{
+  .accordion-header
+  {
+    padding: 10px;
+    border: 1px solid #ccc;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .accordion-body-wrapper
+  {
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    min-height: 0;
+    height: 0;
+  }
+
+  .accordion-body
+  {
+    padding: 10px;
+  }
+}
