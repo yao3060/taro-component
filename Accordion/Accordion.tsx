@@ -1,17 +1,15 @@
-import { ITouchEvent, View } from '@tarojs/components';
-import Taro from '@tarojs/taro';
-import React, { useState } from 'react';
-import './Accordion.scss';
-import { AccordionContext, useAccordionContext } from './AccordionContext';
+import { ITouchEvent, View } from "@tarojs/components";
+import Taro from "@tarojs/taro";
+import React, { useState } from "react";
+import "./Accordion.scss";
+import { AccordionContext, useAccordionContext } from "./AccordionContext";
 
-export function AccordionHeader({ children }: { children: React.ReactNode }) {
-  const { expanded, toggle } = useAccordionContext();
+export function AccordionHeader({expandIcon, children }: { expandIcon?: React.ReactNode; children: React.ReactNode }) {
+  const { toggle } = useAccordionContext();
   return (
-    <View
-      className="accordion-header"
-      onClick={toggle}
-    >
-      {children} {JSON.stringify(expanded)}
+    <View className="accordion-header" onClick={toggle}>
+        {children}
+        {expandIcon}
     </View>
   );
 }
@@ -31,37 +29,37 @@ interface AccordionProps {
 
 export function Accordion(props: AccordionProps) {
   const {
-    id,
+    id = +(new Date()),
     children,
     defaultExpanded = false,
     disabled = false,
     expanded: expandedProp,
-    onChange,
+    onChange
   } = props;
 
   const { current: isControlled } = React.useRef(expandedProp !== undefined);
   const [expandedState, setExpandedState] = React.useState(defaultExpanded);
   const expanded = expandedProp && isControlled ? expandedProp : expandedState;
-  const setExpandedValueIfUncontrolled = React.useCallback((newValue) => {
+  const setExpandedValueIfUncontrolled = React.useCallback(newValue => {
     if (!isControlled) {
       setExpandedState(newValue);
     }
   }, []);
 
-  const height = expanded ? 'auto' : 0;
+  const height = expanded ? "auto" : 0;
 
-  const [tempHeight, setTempHeight] = useState<number | 'auto'>('auto');
+  const [tempHeight, setTempHeight] = useState<number | "auto">("auto");
 
   const handleChange = React.useCallback(
     (event: ITouchEvent) => {
-      console.log('handleChange', !expanded);
+      console.log("handleChange", !expanded);
 
       if (!expanded) {
         setTempHeight(0);
         Taro.createSelectorQuery()
-          .select('.accordion-body')
-          .boundingClientRect((rect) => {
-            console.log('rect', rect.height);
+          .select(`.accordion-body-${id}`)
+          .boundingClientRect(rect => {
+            console.log("rect", rect.height);
             setTempHeight(rect.height);
           })
           .exec();
@@ -82,8 +80,6 @@ export function Accordion(props: AccordionProps) {
 
   const [header, ...body] = React.Children.toArray(children);
 
-  console.log('acc', id, expanded);
-
   return (
     <View className="accordion-wrapper">
       <AccordionContext.Provider value={contextValue}>
@@ -93,7 +89,7 @@ export function Accordion(props: AccordionProps) {
         className="accordion-body-wrapper"
         style={{ height: expanded ? tempHeight : height }}
       >
-        <View className="accordion-body">{body}</View>
+        <View className={`accordion-body accordion-body-${id}`}>{body}</View>
       </View>
     </View>
   );

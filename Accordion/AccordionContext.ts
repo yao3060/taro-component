@@ -11,4 +11,3 @@ type AccordionContextType = {
 export const AccordionContext = createContext<AccordionContextType>({} as AccordionContextType)
 
 export const useAccordionContext = () => useContext(AccordionContext);
-

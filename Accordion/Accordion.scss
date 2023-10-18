@@ -2,10 +2,16 @@
 {
   .accordion-header
   {
-    padding: 10px;
-    border: 1px solid #ccc;
+    padding: 10px 0;
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    .icon{
+      transition: all 0.5s ease-in-out;
+      height: 16px;
+      width: 16px;
+
+    }
   }
 
   .accordion-body-wrapper
@@ -18,6 +24,14 @@
 
   .accordion-body
   {
-    padding: 10px;
+    .accordion-body-inner {
+      padding: 10px 0;
+      font-size: 14px;
+
+      .h5-p {
+        padding-bottom: 20px;
+      }
+    }
+
   }
 }
