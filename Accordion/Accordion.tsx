@@ -29,7 +29,7 @@ interface AccordionProps {
 
 export function Accordion(props: AccordionProps) {
   const {
-    id = +(new Date()),
+    id = Math.random().toFixed(5).replace('.', ''),
     children,
     defaultExpanded = false,
     disabled = false,
